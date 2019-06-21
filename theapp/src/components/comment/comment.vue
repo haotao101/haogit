@@ -110,7 +110,7 @@
     },
     created() {
       this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
-      this.$http.get('https://haotao101.github.io/newone/theapp/data.json').then((response) => {
+      this.$http.get('https://haotao101.github.io/haogit/theapp/data.json').then((response) => {
         //数据存在这个路径中(在webpack.dev.conf中定义,通过data.json中的数据定义)
           this.goods = response.data.goods;
           this.$nextTick(()=>{//调用接口回调

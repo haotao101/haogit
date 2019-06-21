@@ -88,7 +88,7 @@
       };
     },
     created() {
-      this.$http.get('https://haotao101.github.io/newone/theapp/data.json').then((response) => {
+      this.$http.get('https://haotao101.github.io/haogit/theapp/data.json').then((response) => {
         //数据存在这个路径中(在webpack.dev.conf中定义,通过data.json中的数据定义)
         this.ratings = response.data.ratings;
         this.$nextTick(()=>{
