@@ -1,0 +1,120 @@
+html,body{
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 100%;
+	background: #FDCA56;
+	font-size: 62.5%;
+}
+.theTop{
+	width: 100%;
+	height: 40rem;
+	background:url(../image/theTop1.png) 0 0 no-repeat;
+	background-size: 100% 100%;
+}
+.theTopTwo{
+	width: 100%;
+	height: 7rem;
+	background:url(../image/theTop2.png) 0 0 no-repeat;
+	background-size: 100% 100%;
+	position: relative;
+	top:-6rem;
+}
+.theTopThree{
+	width: 80rem;
+	height: 12rem;
+	position: relative;
+	top:-6rem;
+	margin: 0px auto;
+}
+.theTopThree img{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+}
+.theType{
+	border-radius: 18px;
+	width: 90rem;
+	margin: 0px auto;
+	margin-bottom: 5rem;
+}
+.theTypeImg{
+	width:100%;
+	height: 41rem;
+	border-radius: 18px 18px 0px 0px;
+	background: url(../image/changjiang/a6dc1f902206c5ff3a98fe70578e8f5.jpg) no-repeat;
+	background-size: 100% 100%;
+}
+.bottom-top{
+	font-weight: bold;
+	font-size: 15px;
+}
+.theBottom .dadDiv{
+	padding-left: 1rem;
+}
+.theBottom{
+	padding-bottom: 2rem;
+	background: white;
+	border-radius: 0px 0px 18px 18px;
+}
+.bottom-value{
+	font-family:PingFang SC;
+	font-weight:500;
+	color:rgba(102,102,102,1);
+	font-size: 11px;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+}
+.bottom-city{
+	font-size: 11px;
+	font-weight:500;
+	color:#626262;
+	font-family:PingFang SC;
+}
+
+.dad {
+	width:90rem;
+	height: 41rem;
+	position:relative;
+	overflow:hidden;
+	background: #FDCA56;
+}
+.dad .img{
+	width:6600px;
+	height:41rem;
+	position:absolute;
+	left:0px;
+	top:0px;
+	padding: 0px;
+}
+.dad .img img{
+	width:90rem;
+	height:41rem;
+}
+.dad .img li{
+	float:left;
+	width:90rem;
+	height:41rem;
+	border-radius: 18px 18px 0px 0px;
+	overflow: hidden;
+}
+.dad .num {
+	position:absolute;
+	bottom:0;
+	left:50%;
+	transform: translateX(-50%);
+}
+.dad .num li {
+	width:2rem;
+	height:2rem;
+	background-color:#888;
+	border-radius:50%;
+	display:inline-block;
+	margin:0px 0.5rem;
+	cursor:pointer;
+}
+.dad .num li.on {
+	background-color: white;
+}
