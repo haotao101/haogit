@@ -1,10 +1,18 @@
+html{
+	font-size: 62.5%;
+}
 html,body{
 	margin: 0px;
 	padding: 0px;
 	width: 100%;
 	height: 100%;
 	background: #FDCA56;
-	/* font-size: 62.5%; */
+}
+.theDadDiv{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border: 1px solid black;
 }
 .theTop{
 	width: 100%;
