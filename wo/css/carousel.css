@@ -6,6 +6,24 @@ html,body{
 	background: #FDCA56;
 	font-size: 62.5%;
 }
+/* @media screen and (min-width:360px) and (max-width:374px) and (orientation:portrait) {
+    html { font-size: 70.3%; }
+}
+@media screen and (min-width:375px) and (max-width:383px) and (orientation:portrait) {
+    html { font-size: 73.24%; }
+}
+@media screen and (min-width:384px) and (max-width:399px) and (orientation:portrait) {
+    html { font-size: 75.0%; }
+}
+@media screen and (min-width:400px) and (max-width:413px) and (orientation:portrait) {
+    html { font-size: 78.125%; }
+}
+@media screen and (min-width:414px) and (max-width:431px) and (orientation:portrait){
+    html { font-size: 80.86%; }
+}
+@media screen and (min-width:432px) and (max-width:479px) and (orientation:portrait){
+    html { font-size: 84.375%; }
+} */
 .theTop{
 	width: 100%;
 	height: 40rem;
@@ -74,14 +92,14 @@ html,body{
 	font-family:PingFang SC;
 }
 
-.dad {
+.dad,.dad1,.dad2,.dad3,.dad4,.dad5,.dad6 {
 	width:90rem;
 	height: 41rem;
 	position:relative;
 	overflow:hidden;
 	background: #FDCA56;
 }
-.dad .img{
+.dad .img,.dad1 .img1,.dad2 .img2,.dad3 .img3,.dad4 .img4,.dad5 .img5,.dad6 .img6{
 	width:6600px;
 	height:41rem;
 	position:absolute;
@@ -89,24 +107,28 @@ html,body{
 	top:0px;
 	padding: 0px;
 }
-.dad .img img{
+.dad .img img,.dad1 .img1 img,.dad2 .img2 img,.dad3 .img3 img,
+.dad4 .img4 img,.dad5 .img5 img,.dad6 .img6 img{
 	width:90rem;
 	height:41rem;
 }
-.dad .img li{
+.dad .img li,.dad1 .img1 li,.dad2 .img2 li,.dad3 .img3 li,
+.dad4 .img4 li,.dad5 .img5 li,.dad6 .img6 li{
 	float:left;
 	width:90rem;
 	height:41rem;
 	border-radius: 18px 18px 0px 0px;
 	overflow: hidden;
 }
-.dad .num {
+.dad .num,.dad1 .num1,.dad2 .num2,.dad3 .num3,
+.dad4 .num4,.dad5 .num5,.dad6 .num6{
 	position:absolute;
 	bottom:0;
 	left:50%;
 	transform: translateX(-50%);
 }
-.dad .num li {
+.dad .num li,.dad1 .num1 li,.dad2 .num2 li,.dad3 .num3 li,
+.dad4 .num4 li,.dad5 .num5 li,.dad6 .num6 li{
 	width:2rem;
 	height:2rem;
 	background-color:#888;
@@ -115,6 +137,7 @@ html,body{
 	margin:0px 0.5rem;
 	cursor:pointer;
 }
-.dad .num li.on {
+.dad .num li.on,.dad1 .num1 li.on,.dad2 .num2 li.on,.dad3 .num3 li.on,
+.dad4 .num4 li.on,.dad5 .num5 li.on,.dad6 .num6 li.on{
 	background-color: white;
 }
