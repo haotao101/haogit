@@ -4,351 +4,41 @@
     <meta charset="utf-8" />
     <title>video</title>
     <style>
-        body{
-            margin: 0px;
-            padding: 0px;
-        }
-        #video{
-            display: none;
-        }
-        #canvass{
-            position: absolute;
-            top: 0px;
-            left: 0px;
-        }
-        #canvasThree{
-            position: absolute;
-            left: 250px;
-            top:400px;
-        }
-        .pickDiv{
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            border: 2px solid gray;
-            display: inline-block;
-        }
-        #white{
-            background: white;
-        }
-        #yellow{
-            background: yellow;
-        }
-        #grey{
-            background: grey;
-        }
-        #red{
-            background: red;
-        }
-        #blue{
-            background:blue;
-        }
-        #green{
-            background: green;
-        }
-        #black{
-            background: black;
-        }
     </style>
 </head>
 <body>
-    <video id="video" src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
-           width="800" height="450" controls="controls"></video>
-    <canvas id="canvas" width="800" height="450"></canvas>
-    <canvas id="canvass" width="800" height="450"></canvas>
-    <canvas id="canvasThree" width="160" height="50"></canvas>
-    <!--另一块画布覆盖原来的，用来实现弹幕功能-->
-    <div id="time"></div>
-    <div id="sumTime"></div>
-	<button onclick="play()">播放</button>
-    <button onclick="pause()">暂停</button>
-    <button onclick="speed()">快进</button>
-    <button onclick="backward()">快退</button>
-    <button onclick="again()">重新开始</button>
-    <button onclick="mute(this)">声音</button>
-    <button onclick="speedUp()">加速播放</button>
-    <button onclick="speedCut()">减速播放</button>
-    <button onclick="normal()">正常播放</button>
-    <button onclick="voiceUp()">音量增加</button>
-    <button onclick="voiceDown()">音量减少</button>
-    <br/>
-    <button onclick="play()" id="plays">播放</button>
-    <input id="input" type="text" maxlength="25"/>
-    <button onclick="send()">发送</button>
-    <!--颜色-->
-    <div id="colorPick">
-        弹幕颜色:
-        <div class="pickDiv" id="white"></div>
-        <div class="pickDiv" id="yellow"></div>
-        <div class="pickDiv" id="grey"></div>
-        <div class="pickDiv" id="red"></div>
-        <div class="pickDiv" id="blue"></div>
-        <div class="pickDiv" id="green"></div>
-        <div class="pickDiv" id="black"></div>
-    </div>
-    <!--弹幕位置-->
-    <div id="typePick">
-        弹幕位置:
-        <input type="radio" name="type" value="default">默认
-        <input type="radio" name="type" value="top">中部偏上
-        <input type="radio" name="type" value="bottom">中部偏下
-    </div>
+    <div class="wrapper">
+	  <video id="video" style="display: none" autoplay src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" x5-video-player-type="h5"></video>
+	  <canvas id="canvas"></canvas>
+	</div>
 
     <script>
-        var game;   //暂停播放时弹幕停止
-        var call;//暂停播放时调用时间显示的方法
-        var msgs=[];//发送弹幕用到的数组
-        var plays=document.getElementById("plays");
-        plays.style.display='none';
+          var video = document.querySelector('#video')
+		  var canvas = document.querySelector('#canvas')
+		  var wrapper = canvas.parentNode
+		  var width = wrapper.offsetWidth
+		  var height = wrapper.offsetHeight
+		  var ctx = canvas.getContext('2d')
+		  var time = null
+		  canvas.width = width
+		  canvas.height = height
 
-        //弹幕位置
-        var typeDom=document.getElementsByName("type");//样式
-        var type="default";//位置
+		  canvas.addEventListener('click', function () {
+			video.play()
+		  })
 
-        //处理颜色选择
-        var colorPick=document.getElementById("colorPick");
-        var color;  //颜色
-        colorPick.addEventListener('click',function(event){//监听点击事件
-            switch(event.target.id){//获取button中的id
-                case "white":
-                    color="white";
-                    break;
-                case "yellow":
-                    color="yellow";
-                    break;
-                case "grey":
-                    color="grey";
-                    break;
-                case "red":
-                    color="red";
-                    break;
-                case "blue":
-                    color="blue";
-                    break;
-                case "green":
-                    color="green";
-                    break;
-                case "black":
-                    color="black";
-                    break;
-            }
-        })
+		  video.addEventListener('play', function () {
+			  time = window.setInterval(function () {
+				ctx.drawImage(video, 0, 0, width, height);
+			  }, 20);
+		  }, false);
 
-        function play(){//播放
-            video.play();
-            plays.style.display='none';
-            theTime();      //播放时重新开始弹幕
-            theCall();      //重新调用显示当前时间
-			draw();
-			requestAnimationFrame(draw);
-        }
-        function pause(){//暂停
-            video.pause();
-            plays.style.display='block';
-            clearInterval(game);//暂停时弹幕停止
-            clearInterval(call);//停止调用方法
-        }
+		  video.addEventListener('pause', function () {
+			  window.clearInterval(time);
+		  }, false);
 
-        function speed(){//快进
-            video.currentTime+=5;
-        }
-        function backward(){//快退
-            video.currentTime-=5;
-        }
-
-        function again(){//重新开始
-            location.reload();
-        }
-
-        function mute(obj){//静音
-            if(video.muted){
-                video.muted=false;
-            }else{
-                video.muted=true;
-            }
-        }
-
-        function speedUp(){//视频加速
-            video.playbackRate=2;
-        }
-
-        function speedCut(){//减速
-            video.playbackRate=1/3;
-        }
-
-        function normal(){//正常速度
-            video.playbackRate=1;
-        }
-
-
-        function voiceUp(){//增加音量
-            if(video.volume<0.9){
-                video.volume+=0.1;
-                video.muted=false;//开启声音
-            }
-        }
-
-        function voiceDown(){//减少音量
-            if(video.volume>=0.1){
-                video.volume-=0.1;
-                video.muted=false;//开启声音
-            }
-        }
-
-
-        var video = document.getElementById('video');
-        var canvas = document.getElementById("canvas");
-        var ctx = canvas.getContext("2d");//画布显示二维图片
-
-        var canvass = document.getElementById("canvass");
-        var ctxTwo = canvass.getContext("2d");//画布显示二维图片
-
-        var canvasThree=document.getElementById("canvasThree");
-        var ctxThree=canvasThree.getContext("2d");
-
-        //2秒播放视频
-        // setTimeout(function () {
-        //     video.play();
-        //     document.getElementById("sumTime").innerHTML="视频总进度:"+video.duration;
-        // },2000);
-		//等2秒视频播放
-
-        var num;
-        function theCall() {
-            call = setInterval(function () {//每隔1秒获取当前播放时间
-                num = Math.round(video.currentTime);//当前播放时间(四舍五入)
-                document.getElementById("time").innerHTML = "当前进度:" + num;
-                var storage = window.localStorage;
-                var len = storage.length;
-                for (var i = 0; i < len + 1; i++) {
-                    var c = storage.getItem(i);
-                    if (c != null) {
-                        var jsonObj = JSON.parse(c);
-                        if (jsonObj.time == num) {//如果播放时间相等，显示
-                            var tempBarrage = new Barrage(jsonObj.name, jsonObj.color, jsonObj.type);
-                            //名字和颜色和位置存进去
-                            msgs.push(tempBarrage);//把localStorage里面的值存到数组，变成弹幕
-                        }
-                    }
-                }
-                if (num == 5) {//5秒时显示字幕
-                    ctxThree.font = "30px Courier New";
-                    //设置字体填充颜色
-                    ctxThree.fillStyle = "red";
-                    //从坐标点(50,50)开始绘制文字
-                    ctxThree.fillText("显示字幕", 0, 40);
-                }
-            }, 1000)
-        }
-
-        //视频写入画布
-        function draw() {
-            ctx.drawImage(video, 0, 0, 800, 450);//在指定位置插入
-            requestAnimationFrame(draw);
-        }
-
-        //发送弹幕
-        function send() {
-            var name = document.getElementById("input").value;
-            document.getElementById("input").value="";
-
-            //获取单选框的value值
-            for(var i=0;i<typeDom.length;i++){
-                if(typeDom[i].checked){
-                    type=typeDom[i].value;//位置信息重新赋值为value值
-                    break;
-                }
-            }
-
-            if(name.length!=0){
-                var storage=window.localStorage;
-                var len=storage.length;
-                var data={
-                    name:name,      //内容
-                    time:num,        //发送时间
-                    color:color,     //颜色
-                    type:type       //位置
-                }
-                var dd=JSON.stringify(data);
-                storage.setItem(len,dd);//存入localStorage
-                var tempBarrage=new Barrage(name,color,type);//把名字,颜色,位置存进去
-                msgs.push(tempBarrage);//对象存入数组
-            }
-        }
-
-        //弹幕对象
-        //获取画布大小
-        var canvasHeight=canvas.height;
-        var canvasWidth=canvas.width;
-
-        function Barrage(content,color,type){
-            this.content=content;//内容
-            this.color=color;
-            this.type=type;
-            if(this.type=="default"){
-                this.height=parseInt(Math.random()*(canvasHeight-20))+20;//高度随机
-            }else if (this.type=="top"){//中部偏上
-                this.height=parseInt((canvasHeight/2)-Math.random()*canvasHeight/2)+20;
-            }else if (this.type=="bottom"){//中部偏下
-                this.height=parseInt((canvasHeight/2)+Math.random()*canvasHeight/2);
-            }
-        }
-        //循环擦写画布实现动画效果
-        function theTime() {
-            game = setInterval(function () {
-                ctxTwo.clearRect(0, 0, canvasWidth, canvasHeight);//擦写
-                ctxTwo.save();//用来保存Canvas的状态
-                for (var i = 0; i < msgs.length; i++) {
-                    if (msgs[i] != null) {//数组中的值都写在canvas上
-                        if (msgs[i].type == "default") {
-                            handleDefault(msgs[i]);
-                        } else {
-                            handleStatic(msgs[i]);
-                        }
-                    }
-                }
-            }, 20)
-        }
-        //处理默认弹幕样式
-        function handleDefault(barrage){
-            if(barrage.left==undefined||barrage.left==null){
-                barrage.left=canvas.width;//赋值
-            }else{
-                if(barrage.left<-200){
-                    barrage=null;//小于-200，停止减少
-                }else{
-                    barrage.left=barrage.left-3;//每次减少x轴位置，看起来像在移动,每20毫秒减少2
-                    ctxTwo.font = "30px Courier New";
-                    if(barrage.color==undefined){
-                        barrage.color="white";//默认颜色
-                    }
-                    ctxTwo.fillStyle=barrage.color;//弹幕颜色
-                    ctxTwo.fillText(barrage.content,barrage.left,barrage.height);//内容,位置
-                    ctxTwo.restore();//用来恢复Canvas之前保存的状态
-                }
-            }
-        }
-
-        //处理中间弹幕样式
-        function handleStatic(barrage){
-            ctxTwo.font = "30px Courier New";
-            ctxTwo.textAlign="center";//居中
-            ctxTwo.fillStyle=barrage.color;//颜色
-            ctxTwo.fillText(barrage.content,canvasWidth/2,barrage.height);//绘制
-            if(barrage.left==undefined||barrage.left==null){
-                barrage.left=canvas.width;
-            }else{
-                if(barrage.left<-200){
-                    ctxTwo.fillText("",canvasWidth/2,barrage.height);
-                    barrage=null;
-                    ctxTwo.clearRect(0,0,canvasWidth,canvasHeight);//每次绘制位置不变，看起来就像留在原位
-                }else{
-                    barrage.left=barrage.left-3;//显示时间(每次都会移动，只是没有显示)
-                }
-            }
-        }
-
-        theTime();//弹幕
-        theCall();//当前播放时间
+		  video.addEventListener('ended', function () {
+			  window.clearInterval(time);
+		  }, false);
     </script>
 </body>
